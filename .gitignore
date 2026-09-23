@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Trained model files (auto-generated on startup)
+models/*.pkl
+
+# Demo dataset (auto-generated on startup)
+data/*.csv
+
+# Streamlit cache
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test scripts
+test_*.py
+run_demo_setup.py

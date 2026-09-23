@@ -1,0 +1,77 @@
+{
+  "algorithm": "Random Forest Classifier",
+  "n_estimators": 100,
+  "n_train": 400,
+  "n_test": 100,
+  "n_features": 15,
+  "feature_names": [
+    "Flow_Duration",
+    "Total_Fwd_Packets",
+    "Total_Backward_Packets",
+    "Total_Length_Fwd_Packets",
+    "Total_Length_Bwd_Packets",
+    "Fwd_Packet_Length_Mean",
+    "Bwd_Packet_Length_Mean",
+    "Flow_Bytes_s",
+    "Flow_Packets_s",
+    "Packet_Length_Mean",
+    "Packet_Length_Std",
+    "Average_Packet_Size",
+    "Destination_Port",
+    "Source_Port",
+    "Protocol"
+  ],
+  "label_column": "Label",
+  "num_columns": [
+    "Flow_Duration",
+    "Total_Fwd_Packets",
+    "Total_Backward_Packets",
+    "Total_Length_Fwd_Packets",
+    "Total_Length_Bwd_Packets",
+    "Fwd_Packet_Length_Mean",
+    "Bwd_Packet_Length_Mean",
+    "Flow_Bytes_s",
+    "Flow_Packets_s",
+    "Packet_Length_Mean",
+    "Packet_Length_Std",
+    "Average_Packet_Size",
+    "Destination_Port",
+    "Source_Port"
+  ],
+  "cat_columns": [
+    "Protocol"
+  ],
+  "accuracy": 1.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "confusion_matrix": [
+    [
+      45,
+      0
+    ],
+    [
+      0,
+      55
+    ]
+  ],
+  "feature_importance": {
+    "Flow_Duration": 0.11399346218105685,
+    "Total_Fwd_Packets": 0.12217383805678592,
+    "Total_Backward_Packets": 0.06712465937085806,
+    "Total_Length_Fwd_Packets": 0.0726847845211163,
+    "Total_Length_Bwd_Packets": 0.07030044001997482,
+    "Fwd_Packet_Length_Mean": 0.03368100565018575,
+    "Bwd_Packet_Length_Mean": 0.020129008977042583,
+    "Flow_Bytes_s": 0.11794987287342609,
+    "Flow_Packets_s": 0.28787234720031585,
+    "Packet_Length_Mean": 0.01689147293781823,
+    "Packet_Length_Std": 0.033544676450824554,
+    "Average_Packet_Size": 0.006033038868971983,
+    "Destination_Port": 0.03472461794577586,
+    "Source_Port": 0.0020293512040709238,
+    "Protocol": 0.000867423741776136
+  },
+  "trained_at": "2026-09-23 11:35:08",
+  "class_weight": "balanced"
+}
