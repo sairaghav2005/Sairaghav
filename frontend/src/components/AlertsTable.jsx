@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Eye } from 'lucide-react';
+import { Eye, ShieldAlert, CheckCircle2, Clock } from 'lucide-react';
 import api from '../api/axios';
 
 export default function AlertsTable({
@@ -11,28 +11,28 @@ export default function AlertsTable({
   const getSeverityStyle = (severity) => {
     switch (severity?.toUpperCase()) {
       case 'CRITICAL':
-        return 'bg-danger/20 text-danger border-danger/30 shadow-[0_0_10px_rgba(239,68,68,0.3)] animate-pulse-slow';
+        return 'bg-rose-50 text-rose-700 border-rose-200/90 font-bold';
       case 'HIGH':
-        return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+        return 'bg-orange-50 text-orange-700 border-orange-200/90 font-bold';
       case 'MEDIUM':
-        return 'bg-warning/20 text-warning border-warning/30';
+        return 'bg-amber-50 text-amber-700 border-amber-200/90 font-bold';
       case 'LOW':
-        return 'bg-success/20 text-success border-success/30';
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200/90 font-bold';
       default:
-        return 'bg-slate-700/50 text-slate-300 border-slate-600';
+        return 'bg-slate-50 text-slate-700 border-slate-200 font-bold';
     }
   };
 
   const getStatusStyle = (status) => {
     switch (status?.toLowerCase()) {
       case 'new':
-        return 'bg-accent/10 text-accent';
+        return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'investigating':
-        return 'bg-warning/10 text-warning';
+        return 'bg-amber-50 text-amber-700 border-amber-200';
       case 'resolved':
-        return 'bg-success/10 text-success';
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
       default:
-        return 'bg-slate-700/50 text-slate-300';
+        return 'bg-slate-100 text-slate-700 border-slate-200';
     }
   };
 
@@ -48,14 +48,21 @@ export default function AlertsTable({
 
   return (
     <div className="glass-panel overflow-hidden flex flex-col">
-      <div className="p-4 border-b border-slate-700/50 flex justify-between items-center">
-        <h3 className="text-slate-200 font-semibold">Recent Alerts</h3>
+      <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div>
+          <h3 className="text-slate-900 font-bold text-sm">Security Incidents &amp; Alerts</h3>
+          <p className="text-xs text-slate-500 mt-0.5">Automated detection log from Sentinel NIDS</p>
+        </div>
+        <span className="text-xs text-slate-500 font-medium">
+          {alerts.length} logged incidents
+        </span>
       </div>
+
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm text-slate-300">
-          <thead className="text-xs text-slate-400 uppercase bg-slate-800/50">
+        <table className="w-full text-left text-xs text-slate-700">
+          <thead className="text-[11px] text-slate-500 uppercase bg-slate-50/80 border-b border-slate-200/80 font-bold">
             <tr>
-              <th className="px-4 py-3">Time</th>
+              <th className="px-4 py-3">Timestamp</th>
               <th className="px-4 py-3">Source IP</th>
               {!compact && <th className="px-4 py-3">Dest IP</th>}
               <th className="px-4 py-3">Category</th>
@@ -64,14 +71,14 @@ export default function AlertsTable({
               {!compact && <th className="px-4 py-3 text-right">Actions</th>}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-slate-100">
             {alerts.length === 0 ? (
               <tr>
                 <td
                   colSpan={compact ? 5 : 7}
-                  className="px-4 py-8 text-center text-slate-500"
+                  className="px-4 py-8 text-center text-slate-400"
                 >
-                  No alerts found
+                  No active incidents recorded
                 </td>
               </tr>
             ) : (
@@ -86,30 +93,37 @@ export default function AlertsTable({
                 return (
                   <tr
                     key={alert.id || `alert-${index}`}
-                    className="border-b border-slate-700/30 hover:bg-slate-800/50 transition-colors"
+                    className="hover:bg-slate-50 transition-colors"
                   >
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    <td className="px-4 py-3 whitespace-nowrap font-mono text-slate-500">
                       {formattedTime}
                     </td>
-                    <td className="px-4 py-3 font-mono text-xs">{src}</td>
+
+                    <td className="px-4 py-3 font-mono font-semibold text-slate-900">
+                      {src}
+                    </td>
+
                     {!compact && (
-                      <td className="px-4 py-3 font-mono text-xs text-slate-400">
+                      <td className="px-4 py-3 font-mono text-slate-500">
                         {dst}
                       </td>
                     )}
-                    <td className="px-4 py-3">
+
+                    <td className="px-4 py-3 font-medium text-slate-800">
                       {alert.attack_category || alert.category || 'Malicious'}
                     </td>
+
                     <td className="px-4 py-3">
                       <span
                         className={clsx(
-                          'px-2 py-1 text-xs font-medium rounded border',
+                          'px-2 py-0.5 text-[10px] rounded uppercase border inline-block',
                           getSeverityStyle(alert.severity)
                         )}
                       >
                         {alert.severity || 'medium'}
                       </span>
                     </td>
+
                     <td className="px-4 py-3">
                       <select
                         value={alert.status || 'new'}
@@ -117,7 +131,7 @@ export default function AlertsTable({
                           handleStatusChange(alert.id, e.target.value)
                         }
                         className={clsx(
-                          'text-xs rounded px-2 py-1 outline-none border-none cursor-pointer appearance-none bg-slate-800',
+                          'text-[11px] rounded px-2 py-1 outline-none font-semibold cursor-pointer border',
                           getStatusStyle(alert.status)
                         )}
                       >
@@ -126,10 +140,11 @@ export default function AlertsTable({
                         <option value="resolved">Resolved</option>
                       </select>
                     </td>
+
                     {!compact && (
-                      <td className="px-4 py-3 text-right space-x-2">
+                      <td className="px-4 py-3 text-right">
                         <button
-                          className="text-slate-400 hover:text-accent p-1"
+                          className="text-slate-400 hover:text-blue-600 p-1"
                           title="View Details"
                         >
                           <Eye className="w-4 h-4" />

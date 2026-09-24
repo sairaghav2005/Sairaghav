@@ -4,8 +4,9 @@ import { AuthProvider } from './context/AuthContext';
 import { WebSocketProvider } from './context/WebSocketContext';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
+import LiveMonitoringPage from './pages/LiveMonitoringPage';
+import UploadDatasetPage from './pages/UploadDatasetPage';
 import AlertsPage from './pages/AlertsPage';
-import MetricsPage from './pages/MetricsPage';
 
 function AppLayout({ children }) {
   return (
@@ -33,6 +34,22 @@ function App() {
             }
           />
           <Route
+            path="/monitoring"
+            element={
+              <AppLayout>
+                <LiveMonitoringPage />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/upload"
+            element={
+              <AppLayout>
+                <UploadDatasetPage />
+              </AppLayout>
+            }
+          />
+          <Route
             path="/alerts"
             element={
               <AppLayout>
@@ -40,14 +57,8 @@ function App() {
               </AppLayout>
             }
           />
-          <Route
-            path="/metrics"
-            element={
-              <AppLayout>
-                <MetricsPage />
-              </AppLayout>
-            }
-          />
+          {/* Redirect /metrics or any unknown routes to Security Dashboard */}
+          <Route path="/metrics" element={<Navigate to="/" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </WebSocketProvider>
